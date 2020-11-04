@@ -1,4 +1,4 @@
-package com.example.mobileandroid.todo.games
+package com.example.mobileandroid.games
 
 import android.os.Bundle
 import android.util.Log
@@ -11,9 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mobileandroid.R
 import com.example.mobileandroid.core.TAG
-import com.example.mobileandroid.todo.data.GameRepository
-import com.example.mobileandroid.todo.data.MessageData
-import com.example.mobileandroid.todo.data.remote.GameApi
+import com.example.mobileandroid.data.MessageData
+import com.example.mobileandroid.data.remote.GameApi
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_game_list.*
 import kotlinx.coroutines.CoroutineScope
@@ -32,26 +31,6 @@ class GameListFragment : Fragment() {
         Log.v(TAG, "onCreate")
     }
 
-    private suspend fun collectEvents() {
-        while (isActive) {
-            val messageData =
-                Gson().fromJson(GameApi.eventChannel.receive(), MessageData::class.java)
-            Log.d("GLF: collectEvents", "received $messageData")
-            handleMessage(messageData)
-        }
-    }
-
-    private suspend fun handleMessage(messageData: MessageData) {
-        when (messageData.event) {
-            "created" -> GameRepository.saveCachedGame(messageData.payload.game)
-            "updated" -> GameRepository.updateCachedGame(messageData.payload.game)
-            "deleted" -> GameRepository.deleteCachedGame(messageData.payload.game.id)
-            else -> {
-                Log.d("GLF: handleMessage", "received $messageData")
-            }
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,7 +42,7 @@ class GameListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
         setupGameList()
-        fab.setOnClickListener {
+        saveButton.setOnClickListener {
             Log.v(TAG, "add new game")
             findNavController().navigate(R.id.GameEditFragment)
         }
@@ -89,12 +68,35 @@ class GameListFragment : Fragment() {
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
             }
         })
-        gamesModel.loadGames()
+        gamesModel.refresh()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         isActive = false
         Log.v(TAG, "onDestroy")
+    }
+
+    private suspend fun collectEvents() {
+        while (isActive) {
+            val messageData =
+                Gson().fromJson(GameApi.eventChannel.receive(), MessageData::class.java)
+            Log.d("GLF: collectEvents", "received $messageData")
+            handleMessage(messageData)
+        }
+    }
+
+    private suspend fun handleMessage(messageData: MessageData) {
+        val game = messageData.payload.game
+
+        when (messageData.event) {
+            "created" -> gamesModel.gameRepository.save(game, false)
+            "updated" -> gamesModel.gameRepository.update(game, false)
+            "deleted" -> gamesModel.gameRepository.delete(game, false)
+            else -> {
+                Log.d("GLF: handleMessage", "received $messageData")
+            }
+        }
+        gamesModel.refresh()
     }
 }

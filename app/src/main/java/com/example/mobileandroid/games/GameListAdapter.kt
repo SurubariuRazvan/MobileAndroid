@@ -1,4 +1,4 @@
-package com.example.mobileandroid.todo.games
+package com.example.mobileandroid.games
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileandroid.R
-import com.example.mobileandroid.todo.data.Game
-import com.example.mobileandroid.todo.game.GameEditFragment
+import com.example.mobileandroid.data.Game
+import com.example.mobileandroid.game.GameEditFragment
 import kotlinx.android.synthetic.main.view_game.view.*
 
 class GameListAdapter(private val fragment: Fragment) :

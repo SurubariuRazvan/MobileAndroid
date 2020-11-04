@@ -1,4 +1,4 @@
-package com.example.mobileandroid.todo.game
+package com.example.mobileandroid.game
 
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mobileandroid.R
 import com.example.mobileandroid.core.TAG
+import com.example.mobileandroid.data.Game
 import kotlinx.android.synthetic.main.fragment_game_edit.*
 
 class GameEditFragment : Fragment() {
@@ -20,6 +21,7 @@ class GameEditFragment : Fragment() {
 
     private lateinit var viewModel: GameEditViewModel
     private var gameId: Long? = null
+    private var game: Game? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,29 +41,35 @@ class GameEditFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_game_edit, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        Log.v(TAG, "onViewCreated")
-        game_text.setText(gameId.toString())
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
         setupViewModel()
-        fab.setOnClickListener {
+        saveButton.setOnClickListener {
             Log.v(TAG, "save game")
-            viewModel.saveOrUpdateGame(game_text.text.toString())
+            val i = game
+            if (i != null) {
+                i.appid = game_appid.text.toString().toLong()
+                i.name = game_name.text.toString()
+                i.developer = game_developer.text.toString()
+                i.positive = game_positive.text.toString().toLong()
+                i.negative = game_negative.text.toString().toLong()
+                i.owners = game_owners.text.toString()
+                i.price = game_price.text.toString().toFloat()
+                viewModel.saveOrUpdateGame(i)
+            }
         }
-
+        deleteButton.setOnClickListener {
+            Log.v(TAG, "delete game")
+            val i = game
+            if (i != null) {
+                viewModel.deleteGame(i)
+            }
+        }
     }
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this).get(GameEditViewModel::class.java)
-        viewModel.game.observe(viewLifecycleOwner, { game ->
-            Log.v(TAG, "update games")
-            game_text.setText(game.name)
-        })
         viewModel.fetching.observe(viewLifecycleOwner, { fetching ->
             Log.v(TAG, "update fetching")
             progress.visibility = if (fetching) View.VISIBLE else View.GONE
@@ -83,8 +91,22 @@ class GameEditFragment : Fragment() {
             }
         })
         val id = gameId
-        if (id != null) {
-            viewModel.loadGame(id)
+        if (id == null) {
+            game = Game(0, 0, "", "", 0, 0, "", 0.0f)
+        } else {
+            viewModel.getItemById(id).observe(viewLifecycleOwner, {
+                Log.v(TAG, "update items")
+                if (it != null) {
+                    game = it
+                    game_appid.setText(it.appid.toString())
+                    game_name.setText(it.name)
+                    game_developer.setText(it.developer)
+                    game_positive.setText(it.positive.toString())
+                    game_negative.setText(it.negative.toString())
+                    game_owners.setText(it.owners)
+                    game_price.setText(it.price.toString())
+                }
+            })
         }
     }
 }

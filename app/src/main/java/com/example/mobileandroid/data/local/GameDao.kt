@@ -1,22 +1,25 @@
-package com.example.mobileandroid.todo.data.local
+package com.example.mobileandroid.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.mobileandroid.todo.data.Game
+import com.example.mobileandroid.data.Game
 
 @Dao
 interface GameDao {
-    @Query("SELECT * from games ORDER BY text ASC")
+    @Query("SELECT * from games ORDER BY id ASC")
     fun getAll(): LiveData<List<Game>>
 
-    @Query("SELECT * FROM games WHERE id=:_id ")
-    fun getById(_id: String): LiveData<Game>
+    @Query("SELECT * FROM games WHERE id=:id ")
+    fun getById(id: Long): LiveData<Game>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(game: Game)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(game: Game)
+
+    @Query("DELETE FROM games WHERE id=:id")
+    suspend fun delete(id: Long)
 
     @Query("DELETE FROM games")
     suspend fun deleteAll()

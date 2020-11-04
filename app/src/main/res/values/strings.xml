@@ -9,4 +9,14 @@
 
     <string name="game_list_fragment">Game list fragment</string>
     <string name="game_edit_fragment">Game edit fragment</string>
+    <string name="addGame">addGame</string>
+    <string name="save_changes">Save changes</string>
+    <string name="negative">Negative:</string>
+    <string name="owners">Owners:</string>
+    <string name="price">Price:</string>
+    <string name="positive">Positive:</string>
+    <string name="developer">Developer:</string>
+    <string name="name">Name:</string>
+    <string name="appid">Appid:</string>
+    <string name="deleteGame">deleteGame</string>
 </resources>

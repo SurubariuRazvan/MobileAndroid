@@ -1,26 +1,25 @@
-package ro.ubbcluj.cs.ilazar.myapp2.todo.data.local
+package com.example.mobileandroid.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.mobileandroid.todo.data.Game
-import com.example.mobileandroid.todo.data.local.GameDao
+import com.example.mobileandroid.data.Game
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Database(entities = [Game::class], version = 1)
-abstract class TodoDatabase : RoomDatabase() {
+abstract class GameDatabase : RoomDatabase() {
 
     abstract fun gameDao(): GameDao
 
     companion object {
         @Volatile
-        private var INSTANCE: TodoDatabase? = null
+        private var INSTANCE: GameDatabase? = null
 
-        fun getDatabase(context: Context, scope: CoroutineScope): TodoDatabase {
+        fun getDatabase(context: Context, scope: CoroutineScope): GameDatabase {
             val inst = INSTANCE
             if (inst != null) {
                 return inst
@@ -28,8 +27,8 @@ abstract class TodoDatabase : RoomDatabase() {
             val instance =
                 Room.databaseBuilder(
                     context.applicationContext,
-                    TodoDatabase::class.java,
-                    "todo_db"
+                    GameDatabase::class.java,
+                    "game_db"
                 )
                     .addCallback(WordDatabaseCallback(scope))
                     .build()
@@ -52,8 +51,6 @@ abstract class TodoDatabase : RoomDatabase() {
 
         suspend fun populateDatabase(gameDao: GameDao) {
             gameDao.deleteAll()
-//            val game = Game("1", "Hello")
-//            gameDao.insert(game)
         }
     }
 

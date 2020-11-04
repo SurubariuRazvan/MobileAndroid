@@ -1,14 +1,11 @@
-package com.example.mobileandroid.todo.data.remote
+package com.example.mobileandroid.data.remote
 
 import android.util.Log
-import com.example.mobileandroid.todo.data.Game
-import com.example.mobileandroid.todo.data.MessageData
-import com.google.gson.Gson
+import com.example.mobileandroid.data.Game
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import okhttp3.*
-import okio.ByteString
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*

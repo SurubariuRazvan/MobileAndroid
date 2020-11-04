@@ -1,4 +1,4 @@
-package com.example.mobileandroid.todo.data
+package com.example.mobileandroid.data
 
 data class GameJson (
     var game:  Game
