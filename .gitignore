@@ -28,3 +28,7 @@ local.properties
 /gradle/wrapper/gradle-wrapper.properties
 /hs_err_pid2960.log
 /replay_pid2960.log
+/hs_err_pid12128.log
+/hs_err_pid26212.log
+/replay_pid12128.log
+/replay_pid26212.log

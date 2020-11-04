@@ -1,18 +1,17 @@
-package com.example.mobileandroid.data.local
+package com.example.mobileandroid.gameLogic.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.example.mobileandroid.data.Game
+import com.example.mobileandroid.gameLogic.data.Game
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Database(entities = [Game::class], version = 1)
 abstract class GameDatabase : RoomDatabase() {
-
     abstract fun gameDao(): GameDao
 
     companion object {
@@ -24,21 +23,12 @@ abstract class GameDatabase : RoomDatabase() {
             if (inst != null) {
                 return inst
             }
-            val instance =
-                Room.databaseBuilder(
-                    context.applicationContext,
-                    GameDatabase::class.java,
-                    "game_db"
-                )
-                    .addCallback(WordDatabaseCallback(scope))
-                    .build()
+            val instance = Room.databaseBuilder(context.applicationContext, GameDatabase::class.java, "game_db").addCallback(WordDatabaseCallback(scope)).build()
             INSTANCE = instance
             return instance
         }
 
-        private class WordDatabaseCallback(private val scope: CoroutineScope) :
-            RoomDatabase.Callback() {
-
+        private class WordDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
                 INSTANCE?.let { database ->

@@ -1,8 +1,8 @@
-package com.example.mobileandroid.data.local
+package com.example.mobileandroid.gameLogic.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.mobileandroid.data.Game
+import com.example.mobileandroid.gameLogic.data.Game
 
 @Dao
 interface GameDao {

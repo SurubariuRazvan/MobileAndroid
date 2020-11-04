@@ -1,4 +1,4 @@
-package com.example.mobileandroid.game
+package com.example.mobileandroid.gameLogic.game
 
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mobileandroid.R
 import com.example.mobileandroid.core.TAG
-import com.example.mobileandroid.data.Game
+import com.example.mobileandroid.gameLogic.data.Game
 import kotlinx.android.synthetic.main.fragment_game_edit.*
 
 class GameEditFragment : Fragment() {
@@ -26,17 +26,10 @@ class GameEditFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.v(TAG, "onCreate")
-        arguments?.let {
-            if (it.containsKey(GAME_ID)) {
-                gameId = it.getLong(GAME_ID)
-            }
-        }
+        arguments?.let { if (it.containsKey(GAME_ID)) gameId = it.getLong(GAME_ID) }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.v(TAG, "onCreateView")
         return inflater.inflate(R.layout.fragment_game_edit, container, false)
     }
@@ -62,9 +55,7 @@ class GameEditFragment : Fragment() {
         deleteButton.setOnClickListener {
             Log.v(TAG, "delete game")
             val i = game
-            if (i != null) {
-                viewModel.deleteGame(i)
-            }
+            if (i != null) viewModel.deleteGame(i)
         }
     }
 

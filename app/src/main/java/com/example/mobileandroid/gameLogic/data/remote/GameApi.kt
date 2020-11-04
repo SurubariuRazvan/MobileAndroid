@@ -1,10 +1,10 @@
-package com.example.mobileandroid.data.remote
+package com.example.mobileandroid.gameLogic.data.remote
 
 import android.util.Log
-import com.example.mobileandroid.data.Game
+import com.example.mobileandroid.gameLogic.data.Game
 import com.google.gson.GsonBuilder
-import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,15 +36,9 @@ object GameApi {
 
     private val client: OkHttpClient = OkHttpClient.Builder().build()
 
-    private var gson = GsonBuilder()
-        .setLenient()
-        .create()
+    private var gson = GsonBuilder().setLenient().create()
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(URL)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(client)
-        .build()
+    private val retrofit = Retrofit.Builder().baseUrl(URL).addConverterFactory(GsonConverterFactory.create(gson)).client(client).build()
 
     val service: Service = retrofit.create(Service::class.java)
     val eventChannel = Channel<String>()

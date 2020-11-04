@@ -1,4 +1,4 @@
-package com.example.mobileandroid.games
+package com.example.mobileandroid.gameLogic.games
 
 import android.content.ContentValues.TAG
 import android.os.Bundle
@@ -11,13 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mobileandroid.R
-import com.example.mobileandroid.data.Game
-import com.example.mobileandroid.game.GameEditFragment
+import com.example.mobileandroid.gameLogic.data.Game
+import com.example.mobileandroid.gameLogic.game.GameEditFragment
 import kotlinx.android.synthetic.main.view_game.view.*
 
-class GameListAdapter(private val fragment: Fragment) :
-    RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
-
+class GameListAdapter(private val fragment: Fragment) : RecyclerView.Adapter<GameListAdapter.ViewHolder>() {
     var games = emptyList<Game>()
         set(value) {
             field = value
@@ -36,8 +34,7 @@ class GameListAdapter(private val fragment: Fragment) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.view_game, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.view_game, parent, false)
         Log.v(TAG, "onCreateViewHolder")
         return ViewHolder(view)
     }

@@ -1,4 +1,4 @@
-package com.example.mobileandroid.game
+package com.example.mobileandroid.gameLogic.game
 
 import android.app.Application
 import android.util.Log
@@ -8,9 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.mobileandroid.core.Result
 import com.example.mobileandroid.core.TAG
-import com.example.mobileandroid.data.Game
-import com.example.mobileandroid.data.GameRepository
-import com.example.mobileandroid.data.local.GameDatabase
+import com.example.mobileandroid.gameLogic.data.Game
+import com.example.mobileandroid.gameLogic.data.GameRepository
+import com.example.mobileandroid.gameLogic.data.local.GameDatabase
 import kotlinx.coroutines.launch
 
 class GameEditViewModel(application: Application) : AndroidViewModel(application) {
@@ -39,15 +39,8 @@ class GameEditViewModel(application: Application) : AndroidViewModel(application
             Log.v(TAG, "saveOrUpdateGame...")
             mutableFetching.value = true
             mutableException.value = null
-            val result: Result<Game> = if (game.id != 0L) {
-                gameRepository.update(game, true)
-            } else {
-                gameRepository.save(game, true)
-            }
-            when (result) {
-                is Result.Success -> {
-                    Log.d(TAG, "saveOrUpdateGame succeeded")
-                }
+            when (val result = if (game.id != 0L) gameRepository.update(game) else gameRepository.save(game)) {
+                is Result.Success -> Log.d(TAG, "saveOrUpdateGame succeeded")
                 is Result.Error -> {
                     Log.w(TAG, "saveOrUpdateGame failed", result.exception)
                     mutableException.value = result.exception
@@ -63,10 +56,8 @@ class GameEditViewModel(application: Application) : AndroidViewModel(application
             Log.v(TAG, "deleteGame...")
             mutableFetching.value = true
             mutableException.value = null
-            when (val result: Result<Game> = gameRepository.delete(game, true)) {
-                is Result.Success -> {
-                    Log.d(TAG, "deleteGame succeeded")
-                }
+            when (val result: Result<Game> = gameRepository.delete(game)) {
+                is Result.Success -> Log.d(TAG, "deleteGame succeeded")
                 is Result.Error -> {
                     Log.w(TAG, "deleteGame failed", result.exception)
                     mutableException.value = result.exception

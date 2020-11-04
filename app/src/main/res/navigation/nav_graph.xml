@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/GameListFragment"
-        android:name="com.example.mobileandroid.games.GameListFragment"
+        android:name="com.example.mobileandroid.gameLogic.games.GameListFragment"
         android:label="@string/game_list_fragment_label"
         tools:layout="@layout/fragment_game_list">
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/GameEditFragment"
-        android:name="com.example.mobileandroid.game.GameEditFragment"
+        android:name="com.example.mobileandroid.gameLogic.game.GameEditFragment"
         android:label="@string/game_edit_fragment_label"
         tools:layout="@layout/fragment_game_edit">
 
