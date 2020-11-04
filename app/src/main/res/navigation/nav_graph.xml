@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/GameListFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
-        android:name="com.example.mobileandroid.FirstFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        android:id="@+id/GameListFragment"
+        android:name="com.example.mobileandroid.todo.games.GameListFragment"
+        android:label="@string/game_list_fragment_label"
+        tools:layout="@layout/fragment_game_list">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_GameListFragment_to_GameEditFragment"
+            app:destination="@id/GameEditFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
-        android:name="com.example.mobileandroid.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second">
+        android:id="@+id/GameEditFragment"
+        android:name="com.example.mobileandroid.todo.game.GameEditFragment"
+        android:label="@string/game_edit_fragment_label"
+        tools:layout="@layout/fragment_game_edit">
 
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_GameEditFragment_to_GameListFragment"
+            app:destination="@id/GameListFragment" />
     </fragment>
 </navigation>
