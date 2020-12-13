@@ -40,7 +40,7 @@ abstract class GameDatabase : RoomDatabase() {
         }
 
         suspend fun populateDatabase(gameDao: GameDao) {
-            gameDao.deleteAll()
+//            gameDao.deleteAll()
         }
     }
 

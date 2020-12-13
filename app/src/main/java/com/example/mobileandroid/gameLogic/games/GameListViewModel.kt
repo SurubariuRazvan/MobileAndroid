@@ -6,12 +6,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.mobileandroid.core.Result
 import com.example.mobileandroid.core.TAG
 import com.example.mobileandroid.gameLogic.data.Game
 import com.example.mobileandroid.gameLogic.data.GameRepository
 import com.example.mobileandroid.gameLogic.data.local.GameDatabase
 import kotlinx.coroutines.launch
+import com.example.mobileandroid.core.Result
 
 class GameListViewModel(application: Application) : AndroidViewModel(application) {
     private val mutableLoading = MutableLiveData<Boolean>().apply { value = false }

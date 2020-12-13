@@ -6,12 +6,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.mobileandroid.core.Result
 import com.example.mobileandroid.core.TAG
 import com.example.mobileandroid.gameLogic.data.Game
 import com.example.mobileandroid.gameLogic.data.GameRepository
 import com.example.mobileandroid.gameLogic.data.local.GameDatabase
 import kotlinx.coroutines.launch
+import com.example.mobileandroid.core.Result
 
 class GameEditViewModel(application: Application) : AndroidViewModel(application) {
     private val mutableFetching = MutableLiveData<Boolean>().apply { value = false }
@@ -39,7 +39,7 @@ class GameEditViewModel(application: Application) : AndroidViewModel(application
             Log.v(TAG, "saveOrUpdateGame...")
             mutableFetching.value = true
             mutableException.value = null
-            when (val result = if (game.id != 0L) gameRepository.update(game) else gameRepository.save(game)) {
+            when (val result = if (game._id != 0L) gameRepository.update(game) else gameRepository.save(game)) {
                 is Result.Success -> Log.d(TAG, "saveOrUpdateGame succeeded")
                 is Result.Error -> {
                     Log.w(TAG, "saveOrUpdateGame failed", result.exception)

@@ -28,7 +28,7 @@ class GameListAdapter(private val fragment: Fragment) : RecyclerView.Adapter<Gam
         onGameClick = View.OnClickListener { view ->
             val game = view.tag as Game
             fragment.findNavController().navigate(R.id.GameEditFragment, Bundle().apply {
-                putLong(GameEditFragment.GAME_ID, game.id)
+                putLong(GameEditFragment.GAME_ID, game._id)
             })
         }
     }

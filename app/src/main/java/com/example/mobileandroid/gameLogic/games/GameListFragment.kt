@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mobileandroid.R
+import com.example.mobileandroid.auth.data.AuthRepository
+import com.example.mobileandroid.core.Constants
 import com.example.mobileandroid.core.TAG
 import kotlinx.android.synthetic.main.fragment_game_list.*
 
@@ -29,10 +31,20 @@ class GameListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.v(TAG, "onActivityCreated")
-        setupGameList()
+        if (Constants.instance()?.fetchValueString("token") == null) {
+//if (!AuthRepository.isLoggedIn) {
+            findNavController().navigate(R.id.fragment_login)
+            return;
+        }
+        setupGameList();
         saveButton.setOnClickListener {
             Log.v(TAG, "add new game")
             findNavController().navigate(R.id.GameEditFragment)
+        }
+        logout.setOnClickListener {
+            Log.v(TAG, "LOGOUT")
+            AuthRepository.logout()
+            findNavController().navigate(R.id.fragment_login)
         }
     }
 

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mobileandroid.R
+import com.example.mobileandroid.core.Constants
 import com.example.mobileandroid.core.TAG
 import com.example.mobileandroid.gameLogic.data.Game
 import kotlinx.android.synthetic.main.fragment_game_edit.*
@@ -83,7 +84,8 @@ class GameEditFragment : Fragment() {
         })
         val id = gameId
         if (id == null) {
-            game = Game(0, 0, "", "", 0, 0, "", 0.0f)
+            val userId = Constants.instance()?.fetchValueString("_id")!!
+            game = Game(0, userId.toLong(), 0, "", "", 0, 0, "", 0.0f)
         } else {
             viewModel.getItemById(id).observe(viewLifecycleOwner, {
                 Log.v(TAG, "update items")

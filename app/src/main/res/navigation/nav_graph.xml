@@ -6,6 +6,12 @@
     app:startDestination="@id/GameListFragment">
 
     <fragment
+        android:id="@+id/fragment_login"
+        android:name="com.example.mobileandroid.auth.login.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
         android:id="@+id/GameListFragment"
         android:name="com.example.mobileandroid.gameLogic.games.GameListFragment"
         android:label="@string/game_list_fragment_label"
